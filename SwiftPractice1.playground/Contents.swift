@@ -75,3 +75,72 @@ let taylorRocks: Bool = true
 
 var percentage: Double = 99
 var name: String
+
+//MARK: BOOL
+let filename = "paris.jpg"
+print(filename.hasSuffix(".jpg"))
+
+let number = 120
+print(number.isMultiple(of: 3))
+
+let goodDogs = true
+var gameOver = false
+gameOver.toggle()
+print(gameOver)
+
+let isMultuple = 120.isMultiple(of:3)
+
+var isAuthenticated = false
+isAuthenticated = !isAuthenticated
+print(isAuthenticated)
+
+// MARK: join string together
+let firstPart = "Hellow, "
+let secondPart = "word!"
+let greeting1 = firstPart + secondPart
+
+let people = "Haters"
+let action = "hate"
+let lyric = people + " gonna " + action
+//A + B + C  = AB + ABC
+
+// not efficeny by using +
+//You see, each time Swift sees two strings being joined together using + it has to make a new string out of them before continuing, and if you have lots of things being joined it’s quite wasteful.
+// 12 -> 123 -> 1234
+let luggageCode = "1" + "2" + "3" + "4"
+
+//MARK: string interpolation: and it lets us efficiently create strings from other strings, but also from integers, decimal numbers, and more.
+
+let name1 = "Tylor"
+let age1 = 26
+let message = "Hello, my name is \(name1) and I'm \(age1) years old."
+print(message)
+
+print("5 x 5 is \(5 * 5)")
+
+//MARK: Array
+var beatles = ["John", "Paul", "George", "Ringo"]
+print(beatles[0])
+beatles.append("Adrian")
+print(beatles.contains("Paul"))
+print(beatles.sorted())
+let reversedBeatles = beatles.reversed()
+print(reversedBeatles)
+
+var scores = Array<Int>()
+scores.append(100)
+scores.append(80)
+print(scores[1])
+
+var albums = ["Folklore"]
+albums.append("Frearless")
+print(albums.count)
+
+var characters = ["Lana", "Pam", "Ray"]
+print(characters.count)
+characters.remove(at:2)
+print(characters.count)
+characters.removeAll()
+print(characters.count)
+
+
