@@ -143,4 +143,38 @@ print(characters.count)
 characters.removeAll()
 print(characters.count)
 
+//MARK: Dictionary
+let employee = ["name": "Tyler Swift", "job": "Singer", "location": "Nashville"]
+//we need to set default value if the key does not exist in the dictionary
+print(employee["name", default:"Unknown"])
+print(employee["job", default:"Unknown"])
+print(employee["location", default:"Unknown"])
 
+var heights = [String: Int]()
+heights["Yao Mint"] = 229;
+heights["LeBron James"] = 206
+heights["LeBron James"] = 190 //updated with new value for the existing key
+
+//MARK: Set
+var actors = Set<String>()
+actors.insert("Samuel L Jackson")
+actors.insert("Samuel L Jackson") //auto-removed duplicate
+actors.insert("Tom Cruise")
+actors.insert("Nicolas Cage")
+print(actors)
+actors.contains("Nicolas Cage") //faster lookup than array
+actors.sorted() //convert to a sorted array
+
+//MARK: enums
+enum Weekday
+{
+    case monday
+    case tuesday
+    case wednessday
+    case thursday
+    case friday
+}
+
+var day = Weekday.monday
+day = Weekday.friday
+day = .tuesday
