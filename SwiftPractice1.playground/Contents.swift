@@ -76,6 +76,13 @@ let taylorRocks: Bool = true
 var percentage: Double = 99
 var name: String
 
+// Swift use type inference to figure what data we are storing
+// it's also possible to use type annotation to force a particular type
+var soda: [String] = ["Coke", "Pepsi"]
+var teams: [String] = [String]() //init empty string use type annoation as much as possible
+var cities: [String] = [] // type inference
+var clues = [String]()
+
 //MARK: BOOL
 let filename = "paris.jpg"
 print(filename.hasSuffix(".jpg"))
@@ -175,6 +182,96 @@ enum Weekday
     case friday
 }
 
+enum UIStyle
+{
+    case light, dark, system
+}
+
 var day = Weekday.monday
 day = Weekday.friday
 day = .tuesday
+
+//swift can declare a constant varible and assign value to it later
+// one golden rule: Swift must at all times know what data types your constants and variables contain. This is at the core of being a type-safe language, and stops us doing nonsense things like 5 + true or similar.
+let username : String
+//lots of complex logic
+username = "twostarts"
+//lots more complex logic
+print(username)
+
+//MARK: check condition T/F
+var username1 = "tylorswift"
+//if(username.count == 0) //inefficent
+if(username1.isEmpty == true)
+{
+    username1 = "Anonymous"
+}
+
+print("Welcome, \(username)")
+
+let ourName = "Dave Lister"
+let friendName = "Arnold Rimmer"
+
+if ourName < friendName {
+    print("It's \(ourName) vs \(friendName)")
+}
+
+if ourName > friendName {
+    print("It's \(friendName) vs \(ourName)")
+}
+
+// Make an array of 3 numbers
+var numbers = [1, 2, 3]
+
+// Add a 4th
+numbers.append(4)
+
+// If we have over 3 items
+if numbers.count > 3 {
+    // Remove the oldest number
+    numbers.remove(at: 0)
+}
+
+// Display the result
+print(numbers)
+
+enum Weather {
+    case sun, rain, wind, snow, unknown
+}
+
+let forecast = Weather.snow
+
+switch forecast {
+case .sun:
+    print("It should be a nice day.")
+case .rain:
+    print("Pack an umbrella.")
+case .wind:
+    print("Wear something warm")
+case .snow:
+    print("School is cancelled.")
+case .unknown:
+    print("Our forecast generator is broken!")
+}
+
+//MARK: ternary conditonal operator
+enum Theme {
+    case light, dark
+}
+let theme = Theme.dark
+let background = theme == .dark ? "black" : "white"
+print(background)
+
+//MARK: Optionals
+//Swift’s solution is called optionals, and you can make optionals out of any type. An optional integer might have a number like 0 or 40, but it might have no value at all – it might literally be missing, which is nil in Swift.
+
+var age2: Int? = nil
+age = 38
+print(age)
+
+//unwrpping optionals
+var name2: String? = nil
+
+//unwrapping with gard
+
+
