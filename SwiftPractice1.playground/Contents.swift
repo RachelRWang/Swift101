@@ -313,7 +313,7 @@ let num3 = Int(str3)!
 //Because they behave as if they were already unwrapped, you don’t need if let or guard let to use implicitly unwrapped optionals. However, if you try to use them and they have no value – if they are nil – your code crashes.
 
 //Implicitly unwrapped optionals exist because sometimes a variable will start life as nil, but will always have a value before you need to use it. Because you know they will have a value by the time you need them, it’s helpful not having to write if let all the time.
-let age2: Int! = nil
+let age3: Int! = nil
 
 //MARK: Nil coalescing
 //The nil coalescing operator unwraps an optional and returns the value inside if there is one. If there isn’t a value – if the optional was nil – then a default value is used instead. Either way, the result won’t be optional: it will either be the value from inside the optional or the default value used as a backup.
@@ -379,5 +379,104 @@ struct Person {
 }
 
 //MARK: typecasting
-
 //https://www.hackingwithswift.com/sixty/10/11/optionals-summary
+
+//MARK: function
+
+func printHelp()
+{
+    let message = "Welcome to MyApp!"
+    
+    print(message);
+}
+
+printHelp()
+
+func square(number: Int) -> Int
+{
+    return (number * number)
+}
+
+let result = square(number: 3)
+print(result)
+
+//Swift lets us provide two names for each parameter: one to be used externally when calling the function, and one to be used internally inside the function. This is as simple as writing two names, separated by a space.
+
+func sayHello(to name: String) {
+    print("Hello, \(name)!")
+}
+
+sayHello(to: "Taylor")
+
+func setAge(for person: String, to value: Int) {
+    print("\(person) is now \(value)")
+}
+
+setAge(for: "Paul", to: 40)
+
+//Omitting parameter labels
+
+func greet(_ person: String)
+{
+    print("Hello, \(person)!")
+}
+
+greet ("Talor")
+
+// Default parameters: You can give your own parameters a default value just by writing an = after its type followed by the default you want to give it.
+func greet(_ person: String, nicely: Bool = true)
+{
+    if nicely == true {
+        print("Hello, \(person)!")
+    }
+    else
+    {
+        print("Oh no, it's \(person) again...")
+    }
+}
+
+greet("Taylor")
+greet("Taylor", nicely: false)
+
+// Variadic functions:You can make any parameter variadic by writing ... after its type. So, an Int parameter is a single integer, whereas Int... is zero or more integers – potentially hundreds.
+
+func square(numbers: Int...)
+{
+    for number in numbers {
+        print("\(number) squared is \(number * number)")
+    }
+}
+
+square(numbers: 1, 2, 3, 4, 5)
+
+//Throw error
+//Swift lets us throw errors from functions by marking them as throws before their return type, then using the throw keyword when something goes wrong.
+
+//This means using the throws keyword before the function’s return value, then using throw PasswordError.obvious if their password is “password”.
+
+func checkPassword1(_ password: String) throws -> Bool {
+    if password == "password" {
+        throw PasswordError.obvious
+    }
+
+    return true
+}
+
+//If any errors are thrown inside the do block, execution immediately jumps to the catch block.
+do {
+    try checkPassword1("password")
+    print("That password is good!")
+} catch {
+    print("You can't use that password.")
+}
+
+//inout parameters
+//All parameters passed into a Swift function are constants, so you can’t change them. If you want, you can pass in one or more parameters as inout, which means they can be changed inside your function, and those changes reflect in the original value outside the function.
+
+func doubleInPlace(number: inout Int) {
+    number *= 2
+}
+
+var myNum = 10;
+//ampersand, &, before its name, which is an explicit recognition that you’re aware it is being used as inout.
+doubleInPlace(number: &myNum)
