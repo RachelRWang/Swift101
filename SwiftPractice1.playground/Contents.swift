@@ -313,7 +313,7 @@ let num3 = Int(str3)!
 //Because they behave as if they were already unwrapped, you don’t need if let or guard let to use implicitly unwrapped optionals. However, if you try to use them and they have no value – if they are nil – your code crashes.
 
 //Implicitly unwrapped optionals exist because sometimes a variable will start life as nil, but will always have a value before you need to use it. Because you know they will have a value by the time you need them, it’s helpful not having to write if let all the time.
-let age2: Int! = nil
+let age3: Int! = nil
 
 //MARK: Nil coalescing
 //The nil coalescing operator unwraps an optional and returns the value inside if there is one. If there isn’t a value – if the optional was nil – then a default value is used instead. Either way, the result won’t be optional: it will either be the value from inside the optional or the default value used as a backup.
@@ -379,5 +379,117 @@ struct Person {
 }
 
 //MARK: typecasting
-
 //https://www.hackingwithswift.com/sixty/10/11/optionals-summary
+
+//MARK: for loop
+
+let platforms = ["ios", "macOS", "tvOS", "watchOS"]
+
+for os in platforms
+{
+    print("Swift works great on \(os).")
+}
+//[1 12] include both sides
+for i in 1...12
+{
+    print("The \(i) times table")
+    
+//    for j in 1...12 {
+//        print("\(j) X \(i) is \(j*i)")
+//    }
+}
+
+//[1, 5) exclude right side
+for i in 1..<5
+{
+    print("Counting from 1 up to 5:\(i)")
+}
+
+//sometimes you don’t actually need the value that is currently being read, which is where the underscore comes in: Swift will recognize you don’t actually need the variable, and won’t make the temporary constant for you.
+
+var lyric1 = "Haters goona"
+
+for _ in 1...5
+{
+    lyric1 += " hate"
+}
+
+print(lyric1)
+
+var countdown = 10
+
+while countdown > 0
+{
+    print("\(countdown)...")
+    countdown -= 1
+}
+
+print("Blast off!")
+
+let id = Int.random(in: 1...1000)
+let amount = Double.random(in: 0...1)
+
+let number1 = 4
+let number2 = 14
+var multiples = [Int]()
+
+for i in 1...100_000 {
+    if i.isMultiple(of: number1) && i.isMultiple(of: number2) {
+        multiples.append(i)
+
+        if multiples.count == 10 {
+            break
+        }
+    }
+}
+
+print(multiples)
+
+let filenames = ["me.jpg", "work.txt", "sophie.jpg", "logo.psd"]
+
+for filename in filenames {
+    if filename.hasSuffix(".jpg") == false {
+        continue
+    }
+
+    print("Found picture: \(filename)")
+}
+
+//MARK: functions
+func printTimesTables(number: Int, end: Int) //parameters
+{
+    for i in 1...end
+    {
+        print("\(i) X \(number) is \(i*number)")
+    }
+}
+
+printTimesTables(number: 5, end: 10) //arguments
+
+func areLettersIdentical(string1: String, string2: String) -> Bool{
+    return string1.sorted() == string2.sorted() //if only have 1 line of code we can remove return keyword string1.sorted() == string2.sorted()
+}
+
+let isSame = areLettersIdentical(string1: "abc", string2: "bca")
+
+func sayHello(){
+    return //exist the function immediatly
+}
+
+//MARK: tuples
+//When you access values in a tuple, Swift does know ahead of time that it is available because the tuple says it will be available.
+//tuples have a key advantage over dictionaries: we specify exactly which values will exist and what types they have, whereas dictionaries may or may not contain the values we’re asking for.
+func getUser() -> (firstName: String, lastName: String)
+{
+    (firstName: "Tylor", lastName:"Tylor") //or ("Tylor", "Tylor")
+}
+
+let user1 = getUser()
+print("Name:\(user1.firstName) \(user1.lastName)")
+
+//destructuring, extract the tuple out
+let(firstName, lastName) = getUser()
+print("Name:\(firstName) \(lastName)")
+//if you only need first name
+let(firstName1, _) = getUser()
+print("Name:\(firstName1)")
