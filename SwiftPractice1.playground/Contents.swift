@@ -462,6 +462,7 @@ func checkPassword1(_ password: String) throws -> Bool {
     return true
 }
 
+//Swift doesn’t like errors to happen when your program runs, which means it won’t let you run an error-throwing function by accident.
 //If any errors are thrown inside the do block, execution immediately jumps to the catch block.
 do {
     try checkPassword1("password")
@@ -480,3 +481,146 @@ func doubleInPlace(number: inout Int) {
 var myNum = 10;
 //ampersand, &, before its name, which is an explicit recognition that you’re aware it is being used as inout.
 doubleInPlace(number: &myNum)
+
+// Day 6 Closures
+
+let driving = {
+    print("I'm driving in my car")
+}
+
+driving()
+
+// accepting parameters in a clousure
+//To make a closure accept parameters, list them inside parentheses just after the opening brace, then write in so that Swift knows the main body of the closure is starting.
+let driving2 = { (place: String) in
+    print ("I'm goting to \(place) in my car")
+}
+
+//One of the differences between functions and closures is that you don’t use parameter labels when running closures.
+driving2("London")
+
+
+let drivingWithReturn = { (place: String) -> String in
+    return ("I'm goting to \(place) in my car")
+}
+
+// Closures as parameters
+let drivingReturn = drivingWithReturn("London")
+print (drivingReturn)
+
+func travel(action:() -> Void)
+{
+    print("I'm getting ready to go.")
+    action();
+    print ("I arrived!")
+}
+
+travel(action:driving);
+
+//trailing closure syntax
+//If the last parameter to a function is a closure, Swift lets you use special syntax called trailing closure syntax. Rather than pass in your closure as a parameter, you pass it directly after the function inside braces.
+travel {
+    print("I'm driving in my car")
+}
+
+func travel2(action: (String) -> Void)
+{
+    print("I'm getting ready to go.")
+    action( "London");
+    print ("I arrived!")
+}
+travel2{ (place: String) in
+    print ("I'm goting to \(place) in my car")
+}
+
+func travel3(action: (String) -> String){
+    print("I'm getting ready to go.")
+    let description = action("London");
+    print (description)
+    print ("I arrived!")
+}
+travel3 {(des: String) -> String in
+    return "I'm going to \(des) in my car"
+}
+
+//shorthand parameter
+travel3 { des in
+    return "I'm going to \(des) in my car"
+}
+
+//Swift has a shorthand syntax that lets you go even shorter. Rather than writing place in we can let Swift provide automatic names for the closure’s parameters. These are named with a dollar sign, then a number counting from 0.
+travel3 {
+    "I'm going to \($0) in my car"
+}
+
+func travel4(action: (String, Int) -> String) {
+    print("I'm getting ready to go.")
+    let description = action("London", 60)
+    print(description)
+    print("I arrived!")
+}
+
+travel4 {
+    "I'm going to \($0) at \($1) miles per hour"
+}
+
+travel4 {(des: String, distance: Int) -> String in
+    "I'm going to \(des) at \(distance) miles per hour"
+}
+
+// returning closures from functions
+func travel() -> (String) -> Void
+{
+    return {
+        print ("I'm going to \($0)")
+    }
+}
+
+let result1 = travel()
+
+result1 ("London")
+
+// Capturing values
+//If you use any external values inside your closure, Swift captures them – stores them alongside the closure, so they can be modified even if they don’t exist any more.
+func travel5() -> (String) -> Void
+{
+    var counter = 1;
+    return {
+        print ("\(counter). I'm going to \($0)")
+        counter += 1
+    }
+}
+
+let result2 = travel5()
+
+result2("London")
+result2("London")
+result2("London")
+result2("London")
+
+//One of the most important features of Swift’s closures is that they capture values they use. At the same time, one of the most confusing features of Swift is that they capture values they use. Put simply, value capturing takes place so that your closure always has access to the data it needs to work, which means Swift can run the closure safely.
+
+
+func makeRandomNumberGenerator() -> () -> Int {
+//    If the variable had been destroyed, then our closure wouldn’t be able to work any more. It tries to read and write previousNumber, so Swift’s keeping it alive ensures the closure functions as intended.
+//    Although the variable is used by the closure, it’s created outside the closure. This means it only gets set to 0 once, rather than every time the closure is run, which is why it now stores the previous value correctly.
+//What you’re seeing here is the power of closure capturing: that previousNumber variable isn’t inside the closure, but because the closure requires it to exist in order to run it will be captured.
+    var previousNumber = 0
+    return {
+        var newNumber: Int
+        //That returns the closure we’re calling, which means every time we call generator() it creates a new previousNumber variable set to 0 – it isn’t storing the previous value at all.
+        // var previousNumber = 0
+        repeat {
+            newNumber = Int.random(in: 1...3)
+        } while newNumber == previousNumber
+
+        previousNumber = newNumber
+        return newNumber
+    }
+}
+
+let generator = makeRandomNumberGenerator()
+
+for _ in 1...10 {
+    print(generator())
+}
