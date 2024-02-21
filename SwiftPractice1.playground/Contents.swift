@@ -737,3 +737,90 @@ let generator = makeRandomNumberGenerator()
 for _ in 1...10 {
     print(generator())
 }
+
+//Day 8 structs
+//So, use tuples when you want to return two or more arbitrary pieces of values from a function, but prefer structs when you have some fixed data you want to send or receive multiple times.
+
+//a tuple is effectively just a struct without a name, like an anonymous struct.
+struct Sport {
+    var name: String
+    var isOlympicSport: Bool
+    
+    //computed properties:These are called stored properties, because Swift has a different kind of property called a computed property – a property that runs code to figure out its value.
+    //Properties let us attach information to structs, and Swift gives us two variations: stored properties, where a value is stashed away in some memory to be used later, and computed properties, where a value is recomputed every time it’s called. Behind the scenes, a computed property is effectively just a function call that happens to belong to your struct.
+    var olympicStatus: String {
+        if isOlympicSport
+        {
+            return "\(name) is an Olympic sport"
+        }
+        else
+        {
+            return "\(name) is an Olympic sport"
+        }
+    }
+}
+var tennis = Sport(name: "Tennis", isOlympicSport: true)
+print(tennis.name)
+tennis.name = "Lawn tennis"
+print (tennis.olympicStatus)
+
+//property observers:we can use a didSet property observer for that
+struct Progress
+{
+    var task: String
+    var amount: Int {
+        didSet {
+            print("\(task) is now \(amount)% complete")
+        }
+    }
+}
+
+var progress = Progress(task: "Loading data", amount:0)
+progress.amount = 30
+progress.amount = 80
+progress.amount = 100
+
+
+//Structs can have functions inside them, and those functions can use the properties of the struct as they need to. Functions inside structs are called methods, but they still use the same func keyword.
+//the only real difference is that methods belong to a type, such as structs, enums, and classes, whereas functions do not.
+struct City
+{
+    var population: Int
+    
+    func collectTaxes() -> Int
+    {
+        return population * 1000
+    }
+}
+
+let london = City(population: 9_000_000)
+london.collectTaxes()
+//If a struct has a variable property but the instance of the struct was created as a constant, that property can’t be changed – the struct is constant, so all its properties are also constant regardless of how they were created.
+//Swift won’t let you write methods that change properties unless you specifically request it.
+//When you want to change a property inside a method, you need to mark it using the mutating keyword
+struct Person1
+{
+    var name: String
+    
+    mutating func makeAnonymous()
+    {
+        name = "Anonymous"
+    }
+}
+
+var person = Person1(name:"Ed")
+person.makeAnonymous()
+print (person.name)
+
+//strings ar structs
+//Almost all of Swift’s core types are implemented as structs, including strings, integers, arrays, dictionaries, and even Booleans. This isn’t an accident: structs are simple, fast, and efficient in Swift, which means we can create and destroy them as much as we need without worrying too much about performance.
+let string = "Do or donot, there is no try."
+print(string.count)
+print(string.sorted())
+print(string.hasPrefix("Do"))
+
+//array is also struct
+var toys = ["Woody"]
+print(toys.count)
+toys.append("Buzz")
+toys.remove(at: 0)
