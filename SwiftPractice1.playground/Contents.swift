@@ -824,3 +824,114 @@ var toys = ["Woody"]
 print(toys.count)
 toys.append("Buzz")
 toys.remove(at: 0)
+
+//Day 9
+
+//Initializers are special methods that provide different ways to create your struct. All structs come with one by default, called their memberwise initializer – this asks you to provide a value for each property when you create the struct.
+//We can provide our own initializer to replace the default one.
+
+struct User3 {
+    var username: String
+    
+    init() {
+        username = "Anonymous"
+        print("Creating a new user!")
+    }
+}
+
+var user3 = User3()
+user3.username = "twostraws"
+
+//Self Referring to the current instance
+struct Person4 {
+    var name: String
+
+    init(name: String) {
+        print("\(name) was born!")
+        self.name = name
+    }
+}
+
+//Lazy properties: As a performance optimization, Swift lets you create some properties only when they are needed.
+struct FamilyTree
+{
+    init()
+    {
+        print("Creating family tree!")
+    }
+}
+
+struct Person2
+{
+    var name: String
+    lazy var familyTree = FamilyTree()
+    
+    init(name: String)
+    {
+        self.name = name;
+    }
+}
+
+var ed = Person2(name: "Ed")
+
+//But what if we didn’t always need the family tree for a particular person? If we add the lazy keyword to the familyTree property, then Swift will only create the FamilyTree struct when it’s first accessed:
+
+//Using lazy properties can accidentally produce work where you don’t expect it. For example, if you’re building a game and access a complex lazy property for the first time it might cause your game to slow down, so it’s much better to do slow work up front and get it out of the way.
+//Lazy properties always store their result, which might either be unnecessary (because you aren’t going to use it again) or be pointless (because it needs to be recalculated frequently).
+//Because lazy properties change the underlying object they are attached to, you can’t use them on constant structs.
+
+var familyTree = ed.familyTree
+
+// Static properties and methods
+//All the properties and methods we’ve created so far have belonged to individual instances of structs,You can also ask Swift to share specific properties and methods across all instances of the struct by declaring them as static.
+
+struct Student
+{
+    static var classSize = 0;
+    var name: String
+    init(name: String)
+    {
+        self.name = name;
+        Student.classSize += 1
+    }
+}
+
+let ed1 = Student(name: "Ed1")
+let taylor = Student(name: "Taylor")
+print (Student.classSize)
+
+//Access control
+//we can make their id be private so you can’t read it from outside the struct – trying to write ed.id simply won’t work.
+//Now only methods inside Person can read the id property.
+
+struct Person3 {
+   private var id: String
+
+    init(id: String) {
+        self.id = id
+    }
+    
+    func identify() -> String
+    {
+        return "My SSN is \(id)"
+    }
+}
+
+let ed2 = Person3(id: "12345")
+
+// Class: Classes are similar to structs in that they allow you to create new types with properties and methods, but they have five important differences
+
+//1. classes never come with a memberwise initializer. This means if you have properties in your class, you must always create your own initializer.
+
+class Dog
+{
+    var name: String
+    var breed: String
+    
+    init(name: String, breed: String) {
+        self.name = name
+        self.breed = breed
+    }
+}
+
+let poppy = Dog(name: "Poppy", breed: "Poodle")
