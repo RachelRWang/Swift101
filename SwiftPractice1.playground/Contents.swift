@@ -935,3 +935,109 @@ class Dog
 }
 
 let poppy = Dog(name: "Poppy", breed: "Poodle")
+
+//Inheritance
+//2. The second difference between classes and structs is that you can create a class based on an existing class – it inherits all the properties and methods of the original class, and can add its own on top.
+
+class Poodle: Dog
+{
+    init(name: String)
+    {
+        super.init(name:name, breed: "Poodle")
+    }
+}
+
+//override methods
+class Dog1
+{
+    func makeNoise()
+    {
+        print("Woof!")
+    }
+}
+
+class Poodle1: Dog1
+{
+    override func makeNoise() {
+        print("Yip")
+    }
+}
+
+let poppy1 = Poodle1()
+poppy1.makeNoise()
+
+// Final: sometimes you want to disallow other developers from building their own class based on yours.
+final class Dog3
+{
+    var name: String
+    var breed: String
+    
+    init(name: String, breed: String) {
+        self.name = name
+        self.breed = breed
+    }
+}
+
+//3. The third difference between classes and structs is how they are copied. When you copy a struct, both the original and the copy are different things – changing one won’t change the other. When you copy a class, both the original and the copy point to the same thing, so changing one does change the other.
+class Singer {
+    var name = "Taylor Swift"
+}
+
+var singer = Singer()
+print(singer.name)
+
+var singerCopy = singer
+singerCopy.name = "Justin Bieber"
+print(singer.name)
+
+struct Singer1 {
+    var name = "Taylor Swift"
+}
+
+var singer1 = Singer1()
+print(singer1.name)
+
+var singer1Copy = singer1
+singer1Copy.name = "Justin Beiber"
+print(singer1.name)
+print(singer1Copy.name)
+
+
+// Deinitializers:4.The fourth difference between classes and structs is that classes can have deinitializers – code that gets run when an instance of a class is destroyed.
+
+class Person5 {
+    var name = "John Doe"
+
+    init() {
+        print("\(name) is alive!")
+    }
+
+    func printGreeting() {
+        print("Hello, I'm \(name)")
+    }
+    
+    deinit {
+        print("\(name) is no more!")
+    }
+}
+
+for _ in 1...3
+{
+    let person = Person5()
+    person.printGreeting()
+}
+
+//Mutability 5.he final difference between classes and structs is the way they deal with constants. If you have a constant struct with a variable property, that property can’t be changed because the struct itself is constant.
+//However, if you have a constant class with a variable property, that property can be changed. Because of this, classes don’t need the mutating keyword with methods that change properties; that’s only needed with structs.
+class Singer2 {
+    var name = "Taylor Swift"
+}
+
+let taylor1 = Singer2()
+taylor1.name = "Ed Sheeran"
+print(taylor1.name)
+
+//If you want to stop that from happening you need to make the property constant:
+//class Singer3 {
+//    let name = "Taylor Swift"
+//}
