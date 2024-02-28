@@ -276,6 +276,7 @@ print(age)
 var name2: String? = nil
 
 //Optional strings might contain a string like “Hello” or they might be nil – nothing at all.
+//must look inside the optional and see what’s there – a process known as unwrapping.
 if let unwrapped = name2
 {
     print("\(unwrapped.count)")
@@ -1041,3 +1042,106 @@ print(taylor1.name)
 //class Singer3 {
 //    let name = "Taylor Swift"
 //}
+//
+// Struct VS Class
+//Classes do not come with synthesized memberwise initializers.
+//One class can be built upon (“inherit from”) another class, gaining its properties and methods.
+//Copies of structs are always unique, whereas copies of classes actually point to the same shared data.
+//Classes have deinitializers, which are methods that are called when an instance of the class is destroyed, but structs do not.
+//Variable properties in constant classes can be modified freely, but variable properties in constant structs cannot.
+
+// Protocal
+//Protocols are a way of describing what properties and methods something must have. You then tell Swift which types use that protocol – a process known as adopting or conforming to a protocol.
+protocol Identifiable
+{
+    var id: String{get set}
+}
+
+//create instances of that protocal:it’s a description of what we want, rather than something we can create and use directly. But we can create a struct that conforms to it: (seems like protocal implementation)
+struct User: Identifiable{
+    var id: String
+}
+
+//Finally, we’ll write a displayID() function that accepts any Identifiable object:
+func displayID(id: Identifiable)
+{
+    print("My ID is \(id.id)")
+}
+let userIns = User(id: "123")
+
+displayID(id: userIns)
+
+//protocal inheritance One protocol can inherit from another in a process known as protocol inheritance. Unlike with classes, you can inherit from multiple protocols at the same time before you add your own customizations on top.
+
+protocol Payable {
+    func calculateWages() -> Int
+}
+
+protocol NeedsTraining {
+    func study()
+}
+
+protocol HasVacation {
+    func takeVacation(days: Int)
+}
+
+protocol Employee: Payable, NeedsTraining, HasVacation { }
+
+//Extensions allow you to add methods to existing types, to make them do things they weren’t originally designed to do.
+
+extension Int {
+    func squared() -> Int {
+        return self * self
+    }
+}
+
+let number4 = 8
+number4.squared()
+
+//Swift doesn’t let you add stored properties in extensions, so you must use computed properties instead.For example, we could add a new isEven computed property to integers that returns true if it holds an even number:
+extension Int {
+    var isEven: Bool {
+        return self % 2 == 0
+    }
+}
+
+//Protocols let you describe what methods something should have, but don’t provide the code inside. Extensions let you provide the code inside your methods, but only affect one data type – you can’t add the method to lots of types at the same time.
+//Protocol extensions:Protocol extensions solve both those problems: they are like regular extensions, except rather than extending a specific type like Int you extend a whole protocol so that all conforming types get your changes.
+
+let pythons = ["Eric", "Graham", "John", "Michael", "Terry", "Terry"]
+let beatles2 = Set(["John", "Paul", "George", "Ringo"])
+
+//Swift’s arrays and sets both conform to a protocol called Collection, so we can write an extension to that protocol
+extension Collection {
+    func summarize() {
+        print("There are \(count) of us:")
+
+        for name in self {
+            print(name)
+        }
+    }
+}
+
+pythons.summarize()
+beatles2.summarize()
+
+//protocal-oriented programming
+//Protocol extensions can provide default implementations for our own protocol methods. This makes it easy for types to conform to a protocol, and allows a technique called “protocol-oriented programming” – crafting your code around protocols and protocol extensions.
+
+protocol Identifiable1 {
+    var id: String { get set }
+    func identify()
+}
+
+extension Identifiable1 {
+    func identify() {
+        print("My ID is \(id).")
+    }
+}
+
+struct User4: Identifiable1 {
+    var id: String
+}
+
+let twostraws = User4(id: "twostraws")
+twostraws.identify()
